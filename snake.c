@@ -117,36 +117,23 @@ void mostrar_estado(int turno, int puntaje, int dir) {
 /* ================================================================
  *  Funciones por completar
  * ================================================================ */
-
-/*
- *  TODO 1: calcular_nueva_cabeza
- *
- *  Dada la posición actual de la cabeza y una dirección, calcula
- *  la nueva posición de la cabeza.
- *
- *  Usa las macros FILA(), COL() y POS() para descomponer y
- *  recomponer la posición.
- *
- *  Parámetros:
- *    - cabeza_actual: posición codificada de la cabeza
- *    - direccion: ARRIBA, ABAJO, IZQUIERDA o DERECHA
- *
- *  Retorna: la nueva posición codificada
- */
 DATO calcular_nueva_cabeza(DATO cabeza_actual, int direccion) {
     int f = FILA(cabeza_actual);
     int c = COL(cabeza_actual);
 
-    /* -------- COMPLETAR --------
-     * Modifica f y/o c según la dirección:
-     *   ARRIBA    -> f disminuye en 1
-     *   ABAJO     -> f aumenta en 1
-     *   IZQUIERDA -> c disminuye en 1
-     *   DERECHA   -> c aumenta en 1
-     * --------------------------- */
-
-
-
+  swich (direccion) {
+      case ARRIBA: 
+          f--;
+          break;
+      case ABAJO:
+          f++;
+          break;
+      case IZQUIERDA:
+          c--;
+          break;
+      case DERECHA:
+          c++;
+          break;
     return POS(f, c);
 }
 
@@ -167,7 +154,9 @@ int colision_pared(DATO posicion) {
      *   f <= 0, f >= FILAS-1, c <= 0, c >= COLUMNAS-1
      * --------------------------- */
 
-
+if (f <= 0 || f >= FILAS-1 || c <= 0 || c >= COLUMNAS-1) {
+    return 1;
+    }
     return 0; /* Sustituir por la condición correcta */
 }
 
@@ -186,7 +175,9 @@ int colision_cuerpo(ListaDL *vibora, DATO nueva_pos) {
      * Usa buscar(vibora, nueva_pos) para saber si la posición
      * ya está ocupada por un segmento.
      * --------------------------- */
-
+if (buscar(vibora, nueva_pos)) {
+    return 1;
+    }
 
     return 0; /* Sustituir */
 }
@@ -218,8 +209,11 @@ int mover_vibora(ListaDL *vibora, int direccion, DATO comida) {
      * 2. Si nueva_pos == comida, retorna 1 (comió).
      * 3. Si no, elimina el último elemento y retorna 0.
      * --------------------------- */
-
-
+insertar_inicio(vibora,nueva_pos);
+if (nueva_pos == comida) {
+    return 1;
+}
+eliminar_final(vibora);
     return 0; /* Sustituir */
 }
 
