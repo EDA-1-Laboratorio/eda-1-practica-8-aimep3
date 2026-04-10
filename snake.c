@@ -121,7 +121,7 @@ DATO calcular_nueva_cabeza(DATO cabeza_actual, int direccion) {
     int f = FILA(cabeza_actual);
     int c = COL(cabeza_actual);
 
-  swich (direccion) {
+  switch (direccion) {
       case ARRIBA: 
           f--;
           break;
