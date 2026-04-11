@@ -142,27 +142,17 @@ dllista *insertar_en_carrusel(dllista *despues_de, DATO dato) {
         return despues_de;
 
     if (despues_de == NULL) {
-        /* -------- COMPLETAR --------
-         * El carrusel está vacío.
-         * El nuevo nodo debe apuntar a sí mismo en ambos sentidos:
-         *   nuevo->siguiente = ???
-         *   nuevo->previo    = ???
-         * --------------------------- */
-
-
+        /* El carrusel está vacío */
+        nuevo->siguiente = nuevo;
+        nuevo->previo = nuevo;
         return nuevo;
     }
 
-    /* -------- COMPLETAR --------
-     * Insertar "nuevo" entre "despues_de" y "despues_de->siguiente".
-     * Hay que actualizar 4 punteros:
-     *   nuevo->siguiente      = ???
-     *   nuevo->previo         = ???
-     *   despues_de->siguiente->previo = ???
-     *   despues_de->siguiente = ???
-     * Cuidado con el orden de las asignaciones.
-     * --------------------------- */
-
+    /* Insertar entre despues_de y despues_de->siguiente */
+    nuevo->siguiente = despues_de->siguiente;
+    nuevo->previo = despues_de;
+    despues_de->siguiente->previo = nuevo;
+    despues_de->siguiente = nuevo;
 
     return nuevo;
 }
@@ -185,20 +175,21 @@ dllista *eliminar_del_carrusel(dllista *objetivo) {
     if (objetivo == NULL)
         return NULL;
 
-    /* -------- COMPLETAR --------
-     * Caso 1: solo hay un elemento (objetivo->siguiente == objetivo).
-     *   Libera el nodo y retorna NULL.
-     *
-     * Caso 2: hay más elementos.
-     *   - Guarda un puntero al nodo siguiente (será el retorno).
-     *   - Conecta objetivo->previo->siguiente con objetivo->siguiente.
-     *   - Conecta objetivo->siguiente->previo con objetivo->previo.
-     *   - Libera objetivo.
-     *   - Retorna el nodo siguiente.
-     * --------------------------- */
+    /* Caso 1: solo hay un elemento */
+    if (objetivo->siguiente == objetivo) {
+        free(objetivo);
+        return NULL;
+    }
 
-
-    return NULL; /* Sustituir */
+    /* Caso 2: hay más elementos */
+    dllista *siguiente_nodo = objetivo->siguiente;
+    
+    objetivo->previo->siguiente = objetivo->siguiente;
+    objetivo->siguiente->previo = objetivo->previo;
+    
+    free(objetivo);
+    
+    return siguiente_nodo;
 }
 
 /*
@@ -209,12 +200,15 @@ dllista *eliminar_del_carrusel(dllista *objetivo) {
  *  Retorna: el nodo en la nueva posición.
  */
 dllista *avanzar(dllista *seleccion, int n) {
-    /* -------- COMPLETAR --------
-     * Recorre "n" veces usando seleccion->siguiente.
-     * --------------------------- */
-
-
-    return seleccion; /* Sustituir si es necesario */
+    if (seleccion == NULL)
+        return NULL;
+    
+    dllista *actual = seleccion;
+    for (int i = 0; i < n; i++) {
+        actual = actual->siguiente;
+    }
+    
+    return actual;
 }
 
 /*
@@ -225,12 +219,15 @@ dllista *avanzar(dllista *seleccion, int n) {
  *  Retorna: el nodo en la nueva posición.
  */
 dllista *retroceder(dllista *seleccion, int n) {
-    /* -------- COMPLETAR --------
-     * Recorre "n" veces usando seleccion->previo.
-     * --------------------------- */
-
-
-    return seleccion; /* Sustituir si es necesario */
+    if (seleccion == NULL)
+        return NULL;
+    
+    dllista *actual = seleccion;
+    for (int i = 0; i < n; i++) {
+        actual = actual->previo;
+    }
+    
+    return actual;
 }
 
 /* ================================================================
